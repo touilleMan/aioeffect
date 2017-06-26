@@ -162,6 +162,7 @@ class TestPerform:
         async def p(dispatcher, intent, extra):
             return extra
 
-        dispatcher = lambda _: partial(p, extra='extra val')
+        def dispatcher(_):
+            return partial(p, extra='extra val')
         result = await asyncio_perform(dispatcher, Effect('foo'))
         assert result == 'extra val'
