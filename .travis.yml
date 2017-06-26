@@ -1,31 +1,20 @@
-# Config file for automatic testing at travis-ci.org
-# This file will be regenerated if you run travis_pypi_setup.py
-
 language: python
 python:
-- 3.4
 - 3.5
-
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+- 3.6
 install:
 - pip install -Ur requirements_dev.txt
 - pip install -U coveralls
-
-# command to run tests, e.g. python setup.py test
-script: tox -e $(echo py$TRAVIS_PYTHON_VERSION-$DRIVER | tr -d .)
-
+script: tox -e $(echo py$TRAVIS_PYTHON_VERSION | tr -d .)
 after_success:
-  - coveralls
-
-# After you create the Github repo and add it to Travis, run the
-# travis_pypi_setup.py script to finish PyPI deployment setup
+- coveralls
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: touilleMan
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: hU9409/P1tY5aE2ApM/sRM1RB4aCeLE6uW1Pl1VpjNrARpgedFDlXEvMjCky3IvufYYWf/60uwXTLEyaV2uHTCT5S/xNrTJsnKZdbJTLYHJj4jFoQSukwyoJ+YiNl3fOU+EBfAlobM155fzg8kszquWNZ6aXyYhHIOzw08z3GhdSsjNdxJMjg7x88HgKblbEuT8Q1oiogAq6oBa1/wLX6767wyCgsSLePB58aQGrQGk8hov9bp+OGVjH+rfIm7dM+IrYZFzW6PTNUxhpG1ObHVDnBrbDLGWQaLmcip3QD3dcMZV2mGrKKAkZoE3Ix7J/bJ5nxYuvC4/LlB60lhsc1NqloXu7cmU7EYVsXPjgbgu7vqGhv+o2gfMwMQhAfIEyrDkyzXTfwoFQE4PxXyiYV1AfCY75Kg9YYHvZ3VCH4EXxqUZwKAnnopCGNPSFOisBMN0eTXuij+dYjqRlORvVfbd+qK4+VzhFFDcADk0Znj+JWUDPIB4Eec5avLHWXIgsrhGKfRjvuOWH6XGU4TDZrQpN2A6nohXMJ1Pa0IA9NydXQhrwbMu4XQoSUFkHTufDMu5l8BkDZm83Y0RnluLtQ/Fwn670Q1vOQeT7uc7IVIKAE5RldJEFgcmJHM+S2rXh3P+snfRlvypk2QYP35jF73krWK3Dh9FFJJh+iehgHzw=
   on:
     tags: true
     repo: touilleMan/aioeffect
-    condition: $TRAVIS_PYTHON_VERSION == 3.5
+    condition: "$TRAVIS_PYTHON_VERSION == 3.5"
