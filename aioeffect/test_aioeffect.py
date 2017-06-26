@@ -8,6 +8,7 @@ from effect import (
     base_dispatcher, parallel,
     ComposedDispatcher, FirstError
 )
+from unittest.mock import patch
 from effect.do import do
 from . import (
     # deferred_performer,
@@ -82,20 +83,31 @@ class TestDelay:
     """Tests for :class:`Delay`."""
 
     @pytest.mark.asyncio
-    async def test_delay(self):
+    async def test_delay(self, event_loop):
         """
         Delay intents will cause time to pass with reactor.callLater, and
         result in None.
         """
-        called = []
-        eff = Effect(Delay(0.05)).on(called.append)
-        fut = asyncio_perform(make_asyncio_dispatcher(), eff)
-        for i in range(5):
-            assert not fut.done()
-            assert not called
-            await asyncio.sleep(0.01)
-        assert fut.done()
-        assert called == [None]
+        now = event_loop.time()
+
+        def tick():
+            nonlocal now
+            now += 1
+
+        def time():
+            return now
+
+        with patch.object(event_loop, 'time', new_callable=lambda: time):
+            called = []
+            eff = Effect(Delay(4)).on(called.append)
+            fut = asyncio_perform(make_asyncio_dispatcher(), eff)
+            for _ in range(5):
+                assert not fut.done()
+                assert not called
+                event_loop.call_soon(tick)
+                await asyncio.sleep(1)
+            assert fut.done()
+            assert called == [None]
 
 
 class TestPerform:
