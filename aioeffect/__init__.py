@@ -8,14 +8,14 @@ Note that the core effect library does *not* depend on AsyncIO, but this module
 does.
 """
 import sys
-from asyncio import Future, get_event_loop, sleep, gather
+from asyncio import Future, get_event_loop, sleep
 
 from effect import (
     Delay,
     ParallelEffects,
     perform as base_perform,
     TypeDispatcher)
-from effect._utils import wraps  # whoah there
+from effect._utils import wraps
 from effect.async import perform_parallel_async
 
 
