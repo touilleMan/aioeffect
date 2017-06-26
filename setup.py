@@ -24,7 +24,7 @@ test_requirements = [
 
 setup(
     name='aioeffect',
-    version='0.1.0',
+    version='1.0.0',
     description="AsyncIO/Effect integration.",
     long_description=readme + '\n\n' + history,
     author="Emmanuel Leblond",
